@@ -13,11 +13,16 @@ contract Intro {
     uint public age;
     bytes public b2="ab";
 
-
+    // Enum Part
     enum userPermissions{user,admin}
     userPermissions public user; // default 0 | user 
-
     Student public s1;
+
+    // Storage And Memory
+    string[] public people=["Jawad","Immad","Fawad"];
+
+    //Address to send Ether
+    address payable accountToTransfer= payable(0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2);
 
     constructor(string memory newName)
     {
@@ -92,5 +97,47 @@ contract Intro {
     function makeAdminUser() public // Make admin user
     {
         user= userPermissions.user;
+    }
+
+    // Storage And Memory
+
+    // Memory Function
+    function mem() public view
+    {
+        string[] memory p1=people; // state value cannot be changed by memory keyword
+        p1[0]="Pokemon Memory"; 
+    }
+
+    // Storage Function
+    function stor() public
+    {
+        string[] storage p1=people; // state value can be changed by storage keyword
+        p1[0]="Pokemon"; 
+    }
+
+    // Available global variables
+    // Other Global variable can be seen here "https://docs.soliditylang.org/en/v0.8.10/units-and-global-variables.html"
+    // Get block information
+    function getBlockInfo() public view returns(uint block_no,uint timestamp, address msgSender)
+    {
+        return(block.number,block.timestamp,msg.sender);
+    }
+
+    // Get Ether in Contract
+    function getEtherInContract() public payable
+    {}
+
+    // Get balance of contract 
+    function getBalance() public view returns(uint)
+    {
+        return address(this).balance;
+    }
+
+    // Transfer Ether to any account
+    // Before sending ether to account. We should transfer ether to this contract.
+    // Otherwise it won't work
+    function sendEtherToAccount() public
+    {
+        accountToTransfer.transfer(5 ether);
     }
 }
